@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 from .models import Customer, CustomerRow, Craftsman, CraftsmanRow, Worker, WorkerRow
 from .forms import CustomerForm, CustomerRowForm, CraftsmanForm, CraftsmanRowForm, WorkerForm, WorkerRowForm
 from reportlab.lib.pagesizes import A4
@@ -70,6 +71,7 @@ def customer_row_edit(request, pk):
         form = CustomerRowForm(instance=row)
     return render(request, 'main/customer_row_edit.html', {'form': form, 'row': row})
 
+@require_POST
 def customer_row_delete(request, pk):
     row = get_object_or_404(CustomerRow, pk=pk)
     customer_pk = row.customer.pk
@@ -85,21 +87,15 @@ def customer_print(request, pk):
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
     
     elements = []
-    styles = getSampleStyleSheet()
-    
-    rtl_style = ParagraphStyle(
-        'RTL',
-        parent=styles['Normal'],
-        fontName='Helvetica',
-        fontSize=14,
-        alignment=TA_RIGHT,
-    )
     
     title_text = get_display(reshape(f'الاسم: {customer.name}'))
     phone_text = get_display(reshape(f'رقم الهاتف: {customer.phone}'))
     
-    elements.append(Paragraph(title_text, rtl_style))
-    elements.append(Paragraph(phone_text, rtl_style))
+    title_para = Paragraph(f'<para align=right><b>{title_text}</b></para>', getSampleStyleSheet()['Normal'])
+    phone_para = Paragraph(f'<para align=right><b>{phone_text}</b></para>', getSampleStyleSheet()['Normal'])
+    
+    elements.append(title_para)
+    elements.append(phone_para)
     elements.append(Spacer(1, 0.2*inch))
     
     data = []
@@ -130,20 +126,20 @@ def customer_print(request, pk):
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTSIZE', (0, 0), (-1, 0), 12),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -2), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ('BACKGROUND', (0, -1), (-1, -1), colors.lightgrey),
-        ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
     ]))
     
     elements.append(table)
     doc.build(elements)
     
     buffer.seek(0)
-    return HttpResponse(buffer, content_type='application/pdf')
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="customer_{customer.id}.pdf"'
+    return response
 
 def craftsman_list(request):
     craftsmen = Craftsman.objects.all()
@@ -192,6 +188,7 @@ def craftsman_row_edit(request, pk):
         form = CraftsmanRowForm(instance=row)
     return render(request, 'main/craftsman_row_edit.html', {'form': form, 'row': row})
 
+@require_POST
 def craftsman_row_delete(request, pk):
     row = get_object_or_404(CraftsmanRow, pk=pk)
     craftsman_pk = row.craftsman.pk
@@ -246,6 +243,7 @@ def worker_row_edit(request, pk):
         form = WorkerRowForm(instance=row)
     return render(request, 'main/worker_row_edit.html', {'form': form, 'row': row})
 
+@require_POST
 def worker_row_delete(request, pk):
     row = get_object_or_404(WorkerRow, pk=pk)
     worker_pk = row.worker.pk

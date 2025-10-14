@@ -29,7 +29,10 @@
                 <tr>
                     <td class="actions">
                         <a href="{% url 'customer_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
-                        <a href="{% url 'customer_row_delete' row.pk %}" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا الصف؟')">حذف</a>
+                        <form method="POST" action="{% url 'customer_row_delete' row.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الصف؟')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                        </form>
                     </td>
                     <td>{{ row.remaining }}</td>
                     <td>{{ row.received }}</td>
