@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+{% block title %}الصفحة الرئيسية{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 style="text-align: center; color: #2c3e50;">نظام إدارة العملاء والأسطوات والعمال</h1>
+    <p style="text-align: center; font-size: 18px; margin-top: 20px;">اختر من القائمة أعلاه:</p>
+    
+    <div style="display: flex; justify-content: space-around; margin-top: 40px; flex-wrap: wrap;">
+        <div style="text-align: center; margin: 20px;">
+            <h2>العملاء</h2>
+            <p>إدارة بيانات العملاء وجداولهم</p>
+            <a href="{% url 'customer_list' %}" class="btn btn-primary">انتقل إلى العملاء</a>
+        </div>
+        
+        <div style="text-align: center; margin: 20px;">
+            <h2>الأسطوات</h2>
+            <p>إدارة بيانات الأسطوات وجداولهم</p>
+            <a href="{% url 'craftsman_list' %}" class="btn btn-primary">انتقل إلى الأسطوات</a>
+        </div>
+        
+        <div style="text-align: center; margin: 20px;">
+            <h2>العمال</h2>
+            <p>إدارة بيانات العمال وجداولهم</p>
+            <a href="{% url 'worker_list' %}" class="btn btn-primary">انتقل إلى العمال</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block title %}قائمة الأسطوات{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>قائمة الأسطوات</h2>
+    
+    <form method="POST" style="margin-bottom: 30px;">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px; align-items: end;">
+            <div class="form-group" style="flex: 1;">
+                {{ form.name }}
+            </div>
+            <button type="submit" class="btn btn-success">إضافة أسطى جديد</button>
+        </div>
+    </form>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>الإجراءات</th>
+                    <th>الاسم</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for craftsman in craftsmen %}
+                <tr>
+                    <td>
+                        <a href="{% url 'craftsman_detail' craftsman.pk %}" class="btn btn-primary">عرض الجدول</a>
+                    </td>
+                    <td>{{ craftsman.name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">لا يوجد أسطوات حالياً</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

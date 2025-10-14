@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block title %}قائمة العملاء{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>قائمة العملاء</h2>
+    
+    <form method="POST" style="margin-bottom: 30px;">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px; align-items: end;">
+            <div class="form-group" style="flex: 1;">
+                {{ form.name }}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                {{ form.phone }}
+            </div>
+            <button type="submit" class="btn btn-success">إضافة عميل جديد</button>
+        </div>
+    </form>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>الإجراءات</th>
+                    <th>رقم الهاتف</th>
+                    <th>الاسم</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>
+                        <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-primary">عرض الجدول</a>
+                    </td>
+                    <td>{{ customer.phone }}</td>
+                    <td>{{ customer.name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">لا يوجد عملاء حالياً</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

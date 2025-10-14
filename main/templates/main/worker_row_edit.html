@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block title %}تعديل الصف{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'worker_detail' row.worker.pk %}" class="btn btn-primary">← العودة للجدول</a>
+    
+    <h2>تعديل صف العامل: {{ row.worker.name }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>التصفية:</label>
+            {{ form.classification }}
+        </div>
+        <div class="form-group">
+            <label>الواصل:</label>
+            {{ form.received }}
+        </div>
+        <div class="form-group">
+            <label>الباقي:</label>
+            {{ form.remaining }}
+        </div>
+        <button type="submit" class="btn btn-success">حفظ التعديلات</button>
+    </form>
+</div>
+{% endblock %}

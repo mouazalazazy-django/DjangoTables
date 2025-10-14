@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+
+{% block title %}جدول {{ customer.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'customer_list' %}" class="btn btn-primary">← العودة للقائمة</a>
+    
+    <div class="customer-header">
+        <h3>الاسم: {{ customer.name }}</h3>
+        <h3>رقم الهاتف: {{ customer.phone }}</h3>
+    </div>
+
+    <h2>جدول العميل</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>الإجراءات</th>
+                    <th>الباقي</th>
+                    <th>واصل</th>
+                    <th>الأمتار</th>
+                    <th>المكان</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td class="actions">
+                        <a href="{% url 'customer_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
+                        <a href="{% url 'customer_row_delete' row.pk %}" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا الصف؟')">حذف</a>
+                    </td>
+                    <td>{{ row.remaining }}</td>
+                    <td>{{ row.received }}</td>
+                    <td>{{ row.meters }}</td>
+                    <td>{{ row.location }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td></td>
+                    <td>{{ total_remaining }}</td>
+                    <td>{{ total_received }}</td>
+                    <td colspan="2">الإجمالي</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>إضافة صف جديد</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+            <div class="form-group">
+                {{ form.location }}
+            </div>
+            <div class="form-group">
+                {{ form.meters }}
+            </div>
+            <div class="form-group">
+                {{ form.received }}
+            </div>
+            <div class="form-group">
+                {{ form.remaining }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">إضافة صف</button>
+    </form>
+
+    <div class="print-section">
+        <a href="{% url 'customer_print' customer.pk %}" class="btn btn-primary" target="_blank">🖨️ طباعة الجدول</a>
+    </div>
+</div>
+{% endblock %}

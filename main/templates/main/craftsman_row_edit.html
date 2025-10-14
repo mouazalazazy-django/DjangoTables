@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block title %}تعديل الصف{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'craftsman_detail' row.craftsman.pk %}" class="btn btn-primary">← العودة للجدول</a>
+    
+    <h2>تعديل صف الأسطى: {{ row.craftsman.name }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>اسم العميل:</label>
+            {{ form.customer_name }}
+        </div>
+        <div class="form-group">
+            <label>المكان:</label>
+            {{ form.location }}
+        </div>
+        <div class="form-group">
+            <label>أمتار:</label>
+            {{ form.meters }}
+        </div>
+        <div class="form-group">
+            <label>طلبات:</label>
+            {{ form.orders }}
+        </div>
+        <button type="submit" class="btn btn-success">حفظ التعديلات</button>
+    </form>
+</div>
+{% endblock %}
