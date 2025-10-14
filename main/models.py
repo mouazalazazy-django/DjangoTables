@@ -1,0 +1,85 @@
+from django.db import models
+
+class Customer(models.Model):
+    name = models.CharField(max_length=200, verbose_name='الاسم')
+    phone = models.CharField(max_length=20, verbose_name='رقم الهاتف')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'عميل'
+        verbose_name_plural = 'العملاء'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.name
+
+class CustomerRow(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='rows', verbose_name='العميل')
+    location = models.CharField(max_length=200, verbose_name='المكان')
+    meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الأمتار')
+    received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
+    remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
+    order = models.IntegerField(default=0, verbose_name='الترتيب')
+    
+    class Meta:
+        verbose_name = 'صف العميل'
+        verbose_name_plural = 'صفوف العملاء'
+        ordering = ['order', 'id']
+    
+    def __str__(self):
+        return f"{self.customer.name} - {self.location}"
+
+class Craftsman(models.Model):
+    name = models.CharField(max_length=200, verbose_name='اسم الأسطى')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'أسطى'
+        verbose_name_plural = 'الأسطوات'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.name
+
+class CraftsmanRow(models.Model):
+    craftsman = models.ForeignKey(Craftsman, on_delete=models.CASCADE, related_name='rows', verbose_name='الأسطى')
+    customer_name = models.CharField(max_length=200, verbose_name='اسم العميل')
+    location = models.CharField(max_length=200, verbose_name='المكان')
+    meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='أمتار')
+    orders = models.CharField(max_length=200, verbose_name='طلبات')
+    order = models.IntegerField(default=0, verbose_name='الترتيب')
+    
+    class Meta:
+        verbose_name = 'صف الأسطى'
+        verbose_name_plural = 'صفوف الأسطوات'
+        ordering = ['order', 'id']
+    
+    def __str__(self):
+        return f"{self.craftsman.name} - {self.customer_name}"
+
+class Worker(models.Model):
+    name = models.CharField(max_length=200, verbose_name='اسم العامل')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'عامل'
+        verbose_name_plural = 'العمال'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.name
+
+class WorkerRow(models.Model):
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='rows', verbose_name='العامل')
+    classification = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='التصفية')
+    received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الواصل')
+    remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
+    order = models.IntegerField(default=0, verbose_name='الترتيب')
+    
+    class Meta:
+        verbose_name = 'صف العامل'
+        verbose_name_plural = 'صفوف العمال'
+        ordering = ['order', 'id']
+    
+    def __str__(self):
+        return f"{self.worker.name} - {self.classification}"
