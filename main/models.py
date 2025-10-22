@@ -19,6 +19,8 @@ class CustomerRow(models.Model):
     meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الأمتار')
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
     remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
+    type = models.CharField(max_length=200, null=True, blank=True, verbose_name='النوع', default='لا يوجد')
+    date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
     class Meta:
@@ -47,6 +49,8 @@ class CraftsmanRow(models.Model):
     location = models.CharField(max_length=200, verbose_name='المكان')
     meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='أمتار')
     orders = models.CharField(max_length=200, verbose_name='طلبات')
+    type = models.CharField(max_length=200, null=True, blank=True, verbose_name='النوع', default='لا يوجد')
+    date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
     class Meta:
@@ -74,6 +78,7 @@ class WorkerRow(models.Model):
     classification = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='التصفية')
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الواصل')
     remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
+    date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
     class Meta:

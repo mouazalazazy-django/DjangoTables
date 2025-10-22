@@ -16,15 +16,20 @@
         <table>
             <thead>
                 <tr>
-                    <th>الإجراءات</th>
-                    <th>الباقي</th>
-                    <th>الواصل</th>
                     <th>التصفية</th>
+                    <th>الواصل</th>
+                    <th>الباقي</th>
+                    <th>التاريخ</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                 <tr>
+                    <td>{{ row.classification }}</td>
+                    <td>{{ row.received }}</td>
+                    <td>{{ row.remaining }}</td>
+                    <td>{{ row.date }}</td>
                     <td class="actions">
                         <a href="{% url 'worker_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
                         <form method="POST" action="{% url 'worker_row_delete' row.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الصف؟')">
@@ -32,9 +37,6 @@
                             <button type="submit" class="btn btn-danger">حذف</button>
                         </form>
                     </td>
-                    <td>{{ row.remaining }}</td>
-                    <td>{{ row.received }}</td>
-                    <td>{{ row.classification }}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -48,7 +50,7 @@
     <h3>إضافة صف جديد</h3>
     <form method="POST">
         {% csrf_token %}
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
             <div class="form-group">
                 {{ form.classification }}
             </div>
@@ -57,6 +59,9 @@
             </div>
             <div class="form-group">
                 {{ form.remaining }}
+            </div>
+            <div class="form-group">
+                {{ form.date }}
             </div>
         </div>
         <button type="submit" class="btn btn-success">إضافة صف</button>

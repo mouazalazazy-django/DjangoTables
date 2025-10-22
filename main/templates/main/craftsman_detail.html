@@ -16,16 +16,24 @@
         <table>
             <thead>
                 <tr>
-                    <th>الإجراءات</th>
-                    <th>طلبات</th>
-                    <th>أمتار</th>
-                    <th>المكان</th>
                     <th>اسم العميل</th>
+                    <th>المكان</th>
+                    <th>أمتار</th>
+                    <th>النوع</th>
+                    <th>طلبات</th>
+                    <th>التاريخ</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                 <tr>
+                    <td>{{ row.customer_name }}</td>
+                    <td>{{ row.location }}</td>
+                    <td>{{ row.type }}</td>
+                    <td>{{ row.meters }}</td>
+                    <td>{{ row.orders }}</td>
+                    <td>{{ row.date}}</td>
                     <td class="actions">
                         <a href="{% url 'craftsman_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
                         <form method="POST" action="{% url 'craftsman_row_delete' row.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الصف؟')">
@@ -33,10 +41,6 @@
                             <button type="submit" class="btn btn-danger">حذف</button>
                         </form>
                     </td>
-                    <td>{{ row.orders }}</td>
-                    <td>{{ row.meters }}</td>
-                    <td>{{ row.location }}</td>
-                    <td>{{ row.customer_name }}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -50,7 +54,7 @@
     <h3>إضافة صف جديد</h3>
     <form method="POST">
         {% csrf_token %}
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
             <div class="form-group">
                 {{ form.customer_name }}
             </div>
@@ -58,11 +62,16 @@
                 {{ form.location }}
             </div>
             <div class="form-group">
+                {{ form.type }}
+            </div>
+            <div class="form-group">
                 {{ form.meters }}
             </div>
             <div class="form-group">
                 {{ form.orders }}
             </div>
+            <div class="form-group">
+                {{ form.date }}
         </div>
         <button type="submit" class="btn btn-success">إضافة صف</button>
     </form>

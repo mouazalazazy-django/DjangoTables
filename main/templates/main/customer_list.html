@@ -23,19 +23,19 @@
         <table>
             <thead>
                 <tr>
-                    <th>الإجراءات</th>
-                    <th>رقم الهاتف</th>
                     <th>الاسم</th>
+                    <th>رقم الهاتف</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 {% for customer in customers %}
                 <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.phone }}</td>
                     <td>
                         <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-primary">عرض الجدول</a>
                     </td>
-                    <td>{{ customer.phone }}</td>
-                    <td>{{ customer.name }}</td>
                 </tr>
                 {% empty %}
                 <tr>

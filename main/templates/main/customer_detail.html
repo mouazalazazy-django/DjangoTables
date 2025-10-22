@@ -17,16 +17,24 @@
         <table>
             <thead>
                 <tr>
-                    <th>الإجراءات</th>
-                    <th>الباقي</th>
-                    <th>واصل</th>
-                    <th>الأمتار</th>
                     <th>المكان</th>
+                    <th>الأمتار</th>
+                    <th>النوع</th>
+                    <th>واصل</th>
+                    <th>الباقي</th>
+                    <th>التاريخ</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                 <tr>
+                    <td>{{ row.location }}</td>
+                    <td>{{ row.meters }}</td>
+                    <td>{{ row.type }}</td>
+                    <td>{{ row.received }}</td>
+                    <td>{{ row.remaining }}</td>
+                    <td>{{ row.date }}</td>
                     <td class="actions">
                         <a href="{% url 'customer_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
                         <form method="POST" action="{% url 'customer_row_delete' row.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الصف؟')">
@@ -34,17 +42,12 @@
                             <button type="submit" class="btn btn-danger">حذف</button>
                         </form>
                     </td>
-                    <td>{{ row.remaining }}</td>
-                    <td>{{ row.received }}</td>
-                    <td>{{ row.meters }}</td>
-                    <td>{{ row.location }}</td>
                 </tr>
                 {% endfor %}
                 <tr class="total-row">
-                    <td></td>
-                    <td>{{ total_remaining }}</td>
+                    <td colspan="3">الإجمالي</td>
                     <td>{{ total_received }}</td>
-                    <td colspan="2">الإجمالي</td>
+                    <td>{{ total_remaining }}</td>
                 </tr>
             </tbody>
         </table>
@@ -53,7 +56,7 @@
     <h3>إضافة صف جديد</h3>
     <form method="POST">
         {% csrf_token %}
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
             <div class="form-group">
                 {{ form.location }}
             </div>
@@ -61,10 +64,16 @@
                 {{ form.meters }}
             </div>
             <div class="form-group">
+                {{ form.type }}
+            </div>
+            <div class="form-group">
                 {{ form.received }}
             </div>
             <div class="form-group">
                 {{ form.remaining }}
+            </div>
+            <div class="form-group">
+                {{ form.date }}
             </div>
         </div>
         <button type="submit" class="btn btn-success">إضافة صف</button>

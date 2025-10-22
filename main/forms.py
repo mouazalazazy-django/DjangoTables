@@ -6,19 +6,21 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ['name', 'phone']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'اسم العميل'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'رقم الهاتف'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'اسم العميل'}),
         }
 
 class CustomerRowForm(forms.ModelForm):
     class Meta:
         model = CustomerRow
-        fields = ['location', 'meters', 'received', 'remaining']
+        fields = ['location', 'meters', 'type', 'received', 'remaining', 'date']
         widgets = {
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
+            'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'النوع'}),
+            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '100.00'}),
+            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '100.00'}),
+            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الأمتار', 'step': '100.00'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
-            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الأمتار', 'step': '0.01'}),
-            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '0.01'}),
-            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '0.01'}),
         }
 
 class CraftsmanForm(forms.ModelForm):
@@ -32,12 +34,14 @@ class CraftsmanForm(forms.ModelForm):
 class CraftsmanRowForm(forms.ModelForm):
     class Meta:
         model = CraftsmanRow
-        fields = ['customer_name', 'location', 'meters', 'orders']
+        fields = ['customer_name', 'location', 'meters', 'type', 'orders', 'date']
         widgets = {
-            'customer_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'اسم العميل'}),
-            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
-            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار', 'step': '0.01'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
+            'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'النوع'}),
             'orders': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'طلبات'}),
+            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار', 'step': '100.00'}),
+            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
+            'customer_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'اسم العميل'}),
         }
 
 class WorkerForm(forms.ModelForm):
@@ -51,9 +55,10 @@ class WorkerForm(forms.ModelForm):
 class WorkerRowForm(forms.ModelForm):
     class Meta:
         model = WorkerRow
-        fields = ['classification', 'received', 'remaining']
+        fields = ['classification', 'received', 'remaining', 'date']
         widgets = {
-            'classification': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'التصفية', 'step': '0.01'}),
-            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الواصل', 'step': '0.01'}),
-            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '0.01'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
+            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '100.00'}),
+            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الواصل', 'step': '100.00'}),
+            'classification': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'التصفية', 'step': '100.00'}),
         }

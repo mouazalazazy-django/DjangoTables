@@ -20,17 +20,17 @@
         <table>
             <thead>
                 <tr>
-                    <th>الإجراءات</th>
                     <th>الاسم</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 {% for worker in workers %}
                 <tr>
+                    <td>{{ worker.name }}</td>
                     <td>
                         <a href="{% url 'worker_detail' worker.pk %}" class="btn btn-primary">عرض الجدول</a>
                     </td>
-                    <td>{{ worker.name }}</td>
                 </tr>
                 {% empty %}
                 <tr>

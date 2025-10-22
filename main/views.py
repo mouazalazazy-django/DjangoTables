@@ -105,20 +105,22 @@ def customer_print(request, pk):
     
     for row in rows:
         data.append([
-            str(row.remaining),
-            str(row.received),
+            get_display(reshape(row.location)),
             str(row.meters),
-            get_display(reshape(row.location))
+            str(row.type) if row.type else '',
+            str(row.received),
+            str(row.remaining),
+            str(row.date) if row.date else ''
         ])
     
     total_received = sum(row.received for row in rows)
     total_remaining = sum(row.remaining for row in rows)
     
     data.append([
-        str(total_remaining),
-        str(total_received),
+        '',
         get_display(reshape('الإجمالي')),
-        ''
+        str(total_received),
+        str(total_remaining)
     ])
     
     table = Table(data)
