@@ -19,4 +19,10 @@ urlpatterns = [
     path('workers/<int:pk>/', views.worker_detail, name='worker_detail'),
     path('worker-row/<int:pk>/edit/', views.worker_row_edit, name='worker_row_edit'),
     path('worker-row/<int:pk>/delete/', views.worker_row_delete, name='worker_row_delete'),
+
+
+    path('factory/', views.factory_detail, name='factory_detail'),
+    path('factory-row/<int:pk>/edit/', views.factory_row_edit, name='factory_row_edit'),
+    path('factory-row/<int:pk>/delete/', views.factory_row_delete, name='factory_row_delete'),
+
 ]

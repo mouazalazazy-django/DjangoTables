@@ -1,0 +1,89 @@
+{% extends 'main/base.html' %}
+
+{% block title %}جدول المصنع{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'home' %}" class="btn btn-primary">← العودة للرئيسية</a>
+    
+    <div class="customer-header">
+        <h3>جدول المصنع</h3>
+    </div>
+
+    <h2>بيانات المصنع</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>واصل</th>
+                    <th>مصاريف</th>
+                    <th>بضاعة</th>
+                    <th>صادر</th>
+                    <th>وارد</th>
+                    <th>التاريخ</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row.received }}</td>
+                    <td>{{ row.expenses }}</td>
+                    <td>{{ row.goods }}</td>
+                    <td>{{ row.outgoing }}</td>
+                    <td>{{ row.incoming }}</td>
+                    <td>{{ row.date }}</td>
+                    <td class="actions">
+                        <a href="{% url 'factory_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
+                        <form method="POST" action="{% url 'factory_row_delete' row.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الصف؟')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">لا توجد صفوف حالياً</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td>{{ total_received }}</td>
+                    <td>{{ total_expenses }}</td>
+                    <td>{{ total_goods }}</td>
+                    <td>{{ total_outgoing }}</td>
+                    <td>{{ total_incoming }}</td>
+                    <td>الإجمالي</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>إضافة صف جديد</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
+            <div class="form-group">
+                {{ form.received }}
+            </div>
+            <div class="form-group">
+                {{ form.expenses }}
+            </div>
+            <div class="form-group">
+                {{ form.goods }}
+            </div>
+            <div class="form-group">
+                {{ form.outgoing }}
+            </div>
+            <div class="form-group">
+                {{ form.incoming }}
+            </div>
+            <div class="form-group">
+                {{ form.date }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">إضافة صف</button>
+    </form>
+</div>
+{% endblock %}

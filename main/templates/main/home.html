@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card">
     <h1 style="text-align: center; color: #2c3e50;">نظام إدارة العملاء والأسطوات والعمال</h1>
-    <p style="text-align: center; font-size: 18px; margin-top: 20px;">اختر من القائمة أعلاه:</p>
+    <p style="text-align: center; font-size: 18px; margin-top: 20px;">اختر من القائمة أدناه:</p>
     
     <div style="display: flex; justify-content: space-around; margin-top: 40px; flex-wrap: wrap;">
         <div style="text-align: center; margin: 20px;">
@@ -24,6 +24,11 @@
             <h2>العمال</h2>
             <p>إدارة بيانات العمال وجداولهم</p>
             <a href="{% url 'worker_list' %}" class="btn btn-primary">انتقل إلى العمال</a>
+        </div>
+        <div style="text-align: center; margin: 20px;">
+            <h2>المصنع</h2>
+            <p>إدارة بيانات المصنع وجداوله</p>
+            <a href="{% url 'factory_detail' %}" class="btn btn-primary">انتقل إلى المصنع</a>
         </div>
     </div>
 </div>

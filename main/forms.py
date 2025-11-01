@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer, CustomerRow, Craftsman, CraftsmanRow, Worker, WorkerRow
+from .models import Customer, CustomerRow, Craftsman, CraftsmanRow, Worker, WorkerRow, FactoryRow
 
 class CustomerForm(forms.ModelForm):
     class Meta:
@@ -17,9 +17,9 @@ class CustomerRowForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
             'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'النوع'}),
-            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '100.00'}),
-            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '100.00'}),
-            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الأمتار', 'step': '100.00'}),
+            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '0.01'}),
+            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '0.01'}),
+            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الأمتار', 'step': '0.01'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
         }
 
@@ -39,7 +39,7 @@ class CraftsmanRowForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
             'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'النوع'}),
             'orders': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'طلبات'}),
-            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار', 'step': '100.00'}),
+            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار', 'step': '0.01'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
             'customer_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'اسم العميل'}),
         }
@@ -58,7 +58,21 @@ class WorkerRowForm(forms.ModelForm):
         fields = ['classification', 'received', 'remaining', 'date']
         widgets = {
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
-            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '100.00'}),
-            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الواصل', 'step': '100.00'}),
-            'classification': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'التصفية', 'step': '100.00'}),
+            'remaining': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الباقي', 'step': '0.01'}),
+            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الواصل', 'step': '0.01'}),
+            'classification': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'التصفية', 'step': '0.01'}),
+        }
+
+
+class FactoryRowForm(forms.ModelForm):
+    class Meta:
+        model = FactoryRow
+        fields = ['received', 'expenses', 'goods', 'outgoing', 'incoming', 'date']
+        widgets = {
+            'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '00.100'}),
+            'expenses': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'مصاريف', 'step': '00.100'}),
+            'goods': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'بضاعة', 'step': '00.100'}),
+            'outgoing': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'صادر', 'step': '00.100'}),
+            'incoming': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'وارد', 'step': '00.100'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
         }
