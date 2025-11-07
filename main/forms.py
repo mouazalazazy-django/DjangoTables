@@ -67,12 +67,12 @@ class WorkerRowForm(forms.ModelForm):
 class FactoryRowForm(forms.ModelForm):
     class Meta:
         model = FactoryRow
-        fields = ['received', 'expenses', 'goods', 'outgoing', 'incoming', 'date']
+        fields = ['received', 'expenses', 'goods', 'statement', 'note', 'date']
         widgets = {
             'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '00.100'}),
             'expenses': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'مصاريف', 'step': '00.100'}),
             'goods': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'بضاعة', 'step': '00.100'}),
-            'outgoing': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'صادر', 'step': '00.100'}),
-            'incoming': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'وارد', 'step': '00.100'}),
+            'statement': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'بيان'}),
+            'note': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ملاحظة'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
         }

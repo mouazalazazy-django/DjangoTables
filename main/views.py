@@ -280,8 +280,6 @@ def factory_detail(request):
     total_received = sum(row.received for row in rows)
     total_expenses = sum(row.expenses for row in rows)
     total_goods = sum(row.goods for row in rows)
-    total_outgoing = sum(row.outgoing for row in rows)
-    total_incoming = sum(row.incoming for row in rows)
 
     if request.method == 'POST':
         form = FactoryRowForm(request.POST)
@@ -300,8 +298,6 @@ def factory_detail(request):
         'total_received': total_received,
         'total_expenses': total_expenses,
         'total_goods': total_goods,
-        'total_outgoing': total_outgoing,
-        'total_incoming': total_incoming,
     }
     return render(request, 'main/factory_detail.html', context)
 

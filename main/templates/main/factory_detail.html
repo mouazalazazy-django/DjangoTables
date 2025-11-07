@@ -19,8 +19,8 @@
                     <th>واصل</th>
                     <th>مصاريف</th>
                     <th>بضاعة</th>
-                    <th>صادر</th>
-                    <th>وارد</th>
+                    <th>بيان</th>
+                    <th>ملاحظة</th>
                     <th>التاريخ</th>
                     <th>الإجراءات</th>
                 </tr>
@@ -31,8 +31,8 @@
                     <td>{{ row.received }}</td>
                     <td>{{ row.expenses }}</td>
                     <td>{{ row.goods }}</td>
-                    <td>{{ row.outgoing }}</td>
-                    <td>{{ row.incoming }}</td>
+                    <td>{{ row.statement }}</td>
+                    <td>{{ row.note }}</td>
                     <td>{{ row.date }}</td>
                     <td class="actions">
                         <a href="{% url 'factory_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
@@ -48,13 +48,10 @@
                 </tr>
                 {% endfor %}
                 <tr class="total-row">
-                    <td>{{ total_received }}</td>
-                    <td>{{ total_expenses }}</td>
-                    <td>{{ total_goods }}</td>
-                    <td>{{ total_outgoing }}</td>
-                    <td>{{ total_incoming }}</td>
-                    <td>الإجمالي</td>
-                    <td></td>
+                    <td>{{total_received}}</td>
+                    <td>{{total_expenses}}</td>
+                    <td>{{total_goods}}</td>
+                    <td colspan="3">الإجمالي</td>
                 </tr>
             </tbody>
         </table>
@@ -74,10 +71,10 @@
                 {{ form.goods }}
             </div>
             <div class="form-group">
-                {{ form.outgoing }}
+                {{ form.statement }}
             </div>
             <div class="form-group">
-                {{ form.incoming }}
+                {{ form.note }}
             </div>
             <div class="form-group">
                 {{ form.date }}

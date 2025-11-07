@@ -94,8 +94,8 @@ class FactoryRow(models.Model):
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
     expenses = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='مصاريف')
     goods = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='بضاعة')
-    outgoing = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='صادر')
-    incoming = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='وارد')
+    statement = models.CharField(max_length=200, default='لا يوجد', verbose_name='بيان')
+    note = models.CharField(max_length=200, default='لا يوجد', verbose_name='ملاحظة')
     date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
