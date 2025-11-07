@@ -20,7 +20,6 @@ import io
 def home(request):
     return render(request, 'main/home.html')
 
-
 def customer_list(request):
     customers = Customer.objects.all()
     if request.method == 'POST':
@@ -33,11 +32,11 @@ def customer_list(request):
         form = CustomerForm()
     return render(request, 'main/customer_list.html', {'customers': customers, 'form': form})
 
-
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     rows = customer.rows.all()
 
+    total_price = sum(row.price for row in rows)
     total_received = sum(row.received for row in rows)
     total_remaining = sum(row.remaining for row in rows)
 
@@ -57,6 +56,7 @@ def customer_detail(request, pk):
         'customer': customer,
         'rows': rows,
         'form': form,
+        'total_price': total_price,
         'total_received': total_received,
         'total_remaining': total_remaining,
     }
@@ -108,8 +108,9 @@ def customer_print(request, pk):
     elements.append(Spacer(1, 0.2*inch))
 
     data = []
-    headers = [get_display(reshape('الباقي')), get_display(reshape('واصل')),
-               get_display(reshape('الأمتار')), get_display(reshape('المكان'))]
+    headers = [get_display(reshape('التاريخ')), get_display(reshape('الباقي')), get_display(reshape('واصل')),
+               get_display(reshape('السعر')), get_display(reshape('النوع')), get_display(reshape('الأمتار')), 
+               get_display(reshape('المكان'))]
     data.append(headers)
 
     for row in rows:
@@ -117,19 +118,24 @@ def customer_print(request, pk):
             get_display(reshape(row.location)),
             str(row.meters),
             str(row.type) if row.type else '',
+            str(row.price),
             str(row.received),
             str(row.remaining),
             str(row.date) if row.date else ''
         ])
 
+    total_price = sum(row.price for row in rows)
     total_received = sum(row.received for row in rows)
     total_remaining = sum(row.remaining for row in rows)
 
     data.append([
         '',
+        '',
         get_display(reshape('الإجمالي')),
+        str(total_price),
         str(total_received),
-        str(total_remaining)
+        str(total_remaining),
+        ''
     ])
 
     table = Table(data)
@@ -151,6 +157,7 @@ def customer_print(request, pk):
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="customer_{customer.id}.pdf"'
     return response
+
 
 
 def craftsman_list(request):

@@ -20,6 +20,7 @@
                     <th>المكان</th>
                     <th>الأمتار</th>
                     <th>النوع</th>
+                    <th>السعر</th>
                     <th>واصل</th>
                     <th>الباقي</th>
                     <th>التاريخ</th>
@@ -32,6 +33,7 @@
                     <td>{{ row.location }}</td>
                     <td>{{ row.meters }}</td>
                     <td>{{ row.type }}</td>
+                    <td>{{ row.price }}</td>
                     <td>{{ row.received }}</td>
                     <td>{{ row.remaining }}</td>
                     <td>{{ row.date }}</td>
@@ -46,6 +48,7 @@
                 {% endfor %}
                 <tr class="total-row">
                     <td colspan="3">الإجمالي</td>
+                    <td>{{ total_price }}</td>
                     <td>{{ total_received }}</td>
                     <td>{{ total_remaining }}</td>
                 </tr>
@@ -67,10 +70,10 @@
                 {{ form.type }}
             </div>
             <div class="form-group">
-                {{ form.received }}
+                {{ form.price }}
             </div>
             <div class="form-group">
-                {{ form.remaining }}
+                {{ form.received }}
             </div>
             <div class="form-group">
                 {{ form.date }}

@@ -17,9 +17,10 @@ class CustomerRow(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='rows', verbose_name='العميل')
     location = models.CharField(max_length=200, verbose_name='المكان')
     meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الأمتار')
+    type = models.CharField(max_length=200, null=True, blank=True, verbose_name='النوع', default='لا يوجد')
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='السعر')
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
     remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
-    type = models.CharField(max_length=200, null=True, blank=True, verbose_name='النوع', default='لا يوجد')
     date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
@@ -30,6 +31,10 @@ class CustomerRow(models.Model):
     
     def __str__(self):
         return f"{self.customer.name} - {self.location}"
+
+    def save(self, *args, **kwargs):
+        self.remaining = self.price - self.received  
+        super().save(*args, **kwargs)
 
 class Craftsman(models.Model):
     name = models.CharField(max_length=200, verbose_name='اسم الأسطى')
