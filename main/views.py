@@ -43,11 +43,15 @@ def customer_detail(request, pk):
     if request.method == 'POST':
         form = CustomerRowForm(request.POST)
         if form.is_valid():
-            row = form.save(commit=False)
-            row.customer = customer
-            row.order = customer.rows.count()
-            row.save()
-            messages.success(request, 'تم إضافة الصف بنجاح')
+            if form.cleaned_data["received"] > form.cleaned_data["price"] * form.cleaned_data["meters"]:
+                messages.error(request, 'الواصل لا يمكن أن يكون أكبر من السعر الكلي')
+                return redirect('customer_detail', pk=pk)
+            else:
+                row = form.save(commit=False)
+                row.customer = customer
+                row.order = customer.rows.count()
+                row.save()
+                messages.success(request, 'تم إضافة الصف بنجاح')
             return redirect('customer_detail', pk=pk)
     else:
         form = CustomerRowForm()
@@ -68,9 +72,13 @@ def customer_row_edit(request, pk):
     if request.method == 'POST':
         form = CustomerRowForm(request.POST, instance=row)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'تم تعديل الصف بنجاح')
-            return redirect('customer_detail', pk=row.customer.pk)
+            if form.cleaned_data["received"] > form.cleaned_data["price"] * form.cleaned_data["meters"]:
+                messages.error(request, 'الواصل لا يمكن أن يكون أكبر من السعر الكلي')
+                return render(request, 'main/customer_row_edit.html', {'form': form, 'row': row})
+            else:
+                form.save()
+                messages.success(request, 'تم تعديل الصف بنجاح')
+                return redirect('customer_detail', pk=row.customer.pk)
     else:
         form = CustomerRowForm(instance=row)
     return render(request, 'main/customer_row_edit.html', {'form': form, 'row': row})

@@ -33,7 +33,7 @@ class CustomerRow(models.Model):
         return f"{self.customer.name} - {self.location}"
 
     def save(self, *args, **kwargs):
-        self.remaining = self.price - self.received  
+        self.remaining = self.price * self.meters - self.received
         super().save(*args, **kwargs)
 
 class Craftsman(models.Model):
