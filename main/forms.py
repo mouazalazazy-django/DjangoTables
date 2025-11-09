@@ -13,12 +13,16 @@ class CustomerForm(forms.ModelForm):
 class CustomerRowForm(forms.ModelForm):
     class Meta:
         model = CustomerRow
-        fields = ['location', 'meters', 'type', 'price', 'received', 'date']
+        fields = ['location', 'tex_meters', 'tex_price', 'selek_meters', 'selek_price', 'insulator_meters', 'insulator_price', 'repairs', 'received', 'date']
         widgets = {
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
-            'meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الأمتار', 'step': '0.01'}),
-            'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'النوع'}),
-            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'السعر', 'step': '0.01'}),
+            'tex_meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار التكس', 'step': '0.01'}),
+            'tex_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'سعر التكس', 'step': '0.01'}),
+            'selek_meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار السيليكات', 'step': '0.01'}),
+            'selek_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'سعر السيليكات', 'step': '0.01'}),
+            'insulator_meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار العازل', 'step': '0.01'}),
+            'insulator_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'سعر العازل', 'step': '0.01'}),
+            'repairs': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'مرمات', 'step': '0.01'}),
             'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '0.01'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
         }

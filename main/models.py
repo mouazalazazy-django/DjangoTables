@@ -16,9 +16,13 @@ class Customer(models.Model):
 class CustomerRow(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='rows', verbose_name='العميل')
     location = models.CharField(max_length=200, verbose_name='المكان')
-    meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الأمتار')
-    type = models.CharField(max_length=200, null=True, blank=True, verbose_name='النوع', default='لا يوجد')
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='السعر')
+    tex_meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='أمتار التكس')
+    tex_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='سعر التكس')
+    selek_meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='أمتار السيليكات')
+    selek_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='سعر السيليكات')
+    insulator_meters = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='أمتار العازل') 
+    insulator_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='سعر العازل')
+    repairs = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='مرمات')
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
     remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
     date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
@@ -33,7 +37,10 @@ class CustomerRow(models.Model):
         return f"{self.customer.name} - {self.location}"
 
     def save(self, *args, **kwargs):
-        self.remaining = self.price * self.meters - self.received
+        self.remaining = self.tex_meters * self.tex_price + \
+                         self.selek_meters * self.selek_price + \
+                         self.insulator_meters * self.insulator_price + \
+                         self.repairs - self.received
         super().save(*args, **kwargs)
 
 class Craftsman(models.Model):

@@ -36,14 +36,22 @@ def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     rows = customer.rows.all()
 
-    total_price = sum(row.price for row in rows)
+
+    total_tex_meters = sum(row.tex_meters for row in rows)
+    total_selek_meters = sum(row.selek_meters for row in rows)
+    total_insulator_meters = sum(row.insulator_meters for row in rows)
+    total_repairs = sum(row.repairs for row in rows)
     total_received = sum(row.received for row in rows)
     total_remaining = sum(row.remaining for row in rows)
 
     if request.method == 'POST':
         form = CustomerRowForm(request.POST)
         if form.is_valid():
-            if form.cleaned_data["received"] > form.cleaned_data["price"] * form.cleaned_data["meters"]:
+            check_remaining = form.cleaned_data["tex_meters"] * form.cleaned_data["tex_price"] + \
+                              form.cleaned_data["selek_meters"] * form.cleaned_data["selek_price"] + \
+                              form.cleaned_data["insulator_meters"] * form.cleaned_data["insulator_price"] + \
+                              form.cleaned_data["repairs"]
+            if form.cleaned_data["received"] > check_remaining: 
                 messages.error(request, 'الواصل لا يمكن أن يكون أكبر من السعر الكلي')
                 return redirect('customer_detail', pk=pk)
             else:
@@ -60,7 +68,10 @@ def customer_detail(request, pk):
         'customer': customer,
         'rows': rows,
         'form': form,
-        'total_price': total_price,
+        'total_tex_meters': total_tex_meters,
+        'total_selek_meters': total_selek_meters,
+        'total_insulator_meters': total_insulator_meters,
+        'total_repairs': total_repairs,
         'total_received': total_received,
         'total_remaining': total_remaining,
     }
@@ -72,7 +83,11 @@ def customer_row_edit(request, pk):
     if request.method == 'POST':
         form = CustomerRowForm(request.POST, instance=row)
         if form.is_valid():
-            if form.cleaned_data["received"] > form.cleaned_data["price"] * form.cleaned_data["meters"]:
+            check_remaining = form.cleaned_data["tex_meters"] * form.cleaned_data["tex_price"] + \
+                              form.cleaned_data["selek_meters"] * form.cleaned_data["selek_price"] + \
+                              form.cleaned_data["insulator_meters"] * form.cleaned_data["insulator_price"] + \
+                              form.cleaned_data["repairs"]
+            if form.cleaned_data["received"] > check_remaining:
                 messages.error(request, 'الواصل لا يمكن أن يكون أكبر من السعر الكلي')
                 return render(request, 'main/customer_row_edit.html', {'form': form, 'row': row})
             else:

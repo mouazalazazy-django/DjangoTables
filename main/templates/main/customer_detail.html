@@ -18,9 +18,13 @@
             <thead>
                 <tr>
                     <th>المكان</th>
-                    <th>الأمتار</th>
-                    <th>النوع</th>
-                    <th>السعر</th>
+                    <th>أمتار التيكس</th>
+                    <th>سعر التيكس</th>
+                    <th>أمتار السيليكات</th>
+                    <th>سعر السيليكات</th>
+                    <th>أمتار العازل</th>
+                    <th>سعر العازل</th>
+                    <th>مرمات</th>
                     <th>واصل</th>
                     <th>الباقي</th>
                     <th>التاريخ</th>
@@ -31,9 +35,13 @@
                 {% for row in rows %}
                 <tr>
                     <td>{{ row.location }}</td>
-                    <td>{{ row.meters }}</td>
-                    <td>{{ row.type }}</td>
-                    <td>{{ row.price }}</td>
+                    <td>{{ row.tex_meters }}</td>
+                    <td>{{ row.tex_price }}</td>
+                    <td>{{ row.selek_meters }}</td>
+                    <td>{{ row.selek_price }}</td>
+                    <td>{{ row.insulator_meters }}</td>
+                    <td>{{ row.insulator_price }}</td>
+                    <td>{{ row.repairs }}</td>
                     <td>{{ row.received }}</td>
                     <td>{{ row.remaining }}</td>
                     <td>{{ row.date }}</td>
@@ -47,8 +55,14 @@
                 </tr>
                 {% endfor %}
                 <tr class="total-row">
-                    <td colspan="3">الإجمالي</td>
-                    <td>{{ total_price }}</td>
+                    <td>الإجمالي</td>
+                    <td>{{ total_tex_meters }}</td>
+                    <td></td>
+                    <td>{{ total_selek_meters }}</td>
+                    <td></td>
+                    <td>{{ total_insulator_meters }}</td>
+                    <td></td>
+                    <td>{{ total_repairs }}</td>
                     <td>{{ total_received }}</td>
                     <td>{{ total_remaining }}</td>
                 </tr>
@@ -59,18 +73,30 @@
     <h3>إضافة صف جديد</h3>
     <form method="POST">
         {% csrf_token %}
-        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(11, 1fr); gap: 8px;">
             <div class="form-group">
                 {{ form.location }}
             </div>
             <div class="form-group">
-                {{ form.meters }}
+                {{ form.tex_meters }}
             </div>
             <div class="form-group">
-                {{ form.type }}
+                {{ form.tex_price }}
             </div>
             <div class="form-group">
-                {{ form.price }}
+                {{ form.selek_meters }}
+            </div>
+            <div class="form-group">
+                {{ form.selek_price }}
+            </div>
+            <div class="form-group">
+                {{ form.insulator_meters }}
+            </div>
+            <div class="form-group">
+                {{ form.insulator_price }}
+            </div>
+            <div class="form-group">
+                {{ form.repairs }}
             </div>
             <div class="form-group">
                 {{ form.received }}
