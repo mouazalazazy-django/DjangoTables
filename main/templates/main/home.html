@@ -3,32 +3,39 @@
 {% block title %}الصفحة الرئيسية{% endblock %}
 
 {% block content %}
+<!-- Company Header -->
+<div class="company-header">
+    <h1 class="company-name">مجموعة الشرق الكبرى للطلاء والعازل</h1>
+    <p class="company-subtitle">نظام إدارة العملاء والأسطوات والعمال المتكامل</p>
+</div>
+
 <div class="card">
-    <h1 style="text-align: center; color: #2c3e50;">نظام إدارة العملاء والأسطوات والعمال</h1>
-    <p style="text-align: center; font-size: 18px; margin-top: 20px;">اختر من القائمة أدناه:</p>
+    <h1 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">لوحة التحكم الرئيسية</h1>
+    <p style="text-align: center; font-size: 18px; color: #666;">اختر القسم الذي تريد إدارته من الأقسام التالية:</p>
     
-    <div style="display: flex; justify-content: space-around; margin-top: 40px; flex-wrap: wrap;">
-        <div style="text-align: center; margin: 20px;">
-            <h2>العملاء</h2>
-            <p>إدارة بيانات العملاء وجداولهم</p>
-            <a href="{% url 'customer_list' %}" class="btn btn-primary">انتقل إلى العملاء</a>
+    <div class="home-cards">
+        <div class="home-card">
+            <h2>👥 العملاء</h2>
+            <p>إدارة شاملة لبيانات العملاء وحساباتهم المالية والجداول الخاصة بهم</p>
+            <a href="{% url 'customer_list' %}" class="btn btn-primary">انتقل إلى العملاء ←</a>
         </div>
         
-        <div style="text-align: center; margin: 20px;">
-            <h2>الأسطوات</h2>
-            <p>إدارة بيانات الأسطوات وجداولهم</p>
-            <a href="{% url 'craftsman_list' %}" class="btn btn-primary">انتقل إلى الأسطوات</a>
+        <div class="home-card">
+            <h2>🔨 الأسطوات</h2>
+            <p>متابعة وإدارة بيانات الأسطوات ومشاريعهم وجداول أعمالهم</p>
+            <a href="{% url 'craftsman_list' %}" class="btn btn-primary">انتقل إلى الأسطوات ←</a>
         </div>
         
-        <div style="text-align: center; margin: 20px;">
-            <h2>العمال</h2>
-            <p>إدارة بيانات العمال وجداولهم</p>
-            <a href="{% url 'worker_list' %}" class="btn btn-primary">انتقل إلى العمال</a>
+        <div class="home-card">
+            <h2>👷 العمال</h2>
+            <p>تتبع وإدارة بيانات العمال والحسابات المالية الخاصة بهم</p>
+            <a href="{% url 'worker_list' %}" class="btn btn-primary">انتقل إلى العمال ←</a>
         </div>
-        <div style="text-align: center; margin: 20px;">
-            <h2>المصنع</h2>
-            <p>إدارة بيانات المصنع وجداوله</p>
-            <a href="{% url 'factory_detail' %}" class="btn btn-primary">انتقل إلى المصنع</a>
+        
+        <div class="home-card">
+            <h2>🏭 المصنع</h2>
+            <p>إدارة عمليات المصنع والمصاريف والبضائع والحركة المالية</p>
+            <a href="{% url 'factory_detail' %}" class="btn btn-primary">انتقل إلى المصنع ←</a>
         </div>
     </div>
 </div>

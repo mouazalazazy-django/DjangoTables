@@ -13,7 +13,7 @@ class CustomerForm(forms.ModelForm):
 class CustomerRowForm(forms.ModelForm):
     class Meta:
         model = CustomerRow
-        fields = ['location', 'tex_meters', 'tex_price', 'selek_meters', 'selek_price', 'insulator_meters', 'insulator_price', 'repairs', 'received', 'date']
+        fields = ['location', 'tex_meters', 'tex_price', 'selek_meters', 'selek_price', 'insulator_meters', 'insulator_price', 'repairs', 'received', 'discount', 'date']
         widgets = {
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المكان'}),
             'tex_meters': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'أمتار التكس', 'step': '0.01'}),
@@ -24,6 +24,7 @@ class CustomerRowForm(forms.ModelForm):
             'insulator_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'سعر العازل', 'step': '0.01'}),
             'repairs': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'مرمات', 'step': '0.01'}),
             'received': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'واصل', 'step': '0.01'}),
+            'discount': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'الخصم', 'step': '0.01'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'التاريخ', 'type': 'date'}),
         }
 

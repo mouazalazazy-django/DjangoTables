@@ -25,6 +25,7 @@ class CustomerRow(models.Model):
     repairs = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='مرمات')
     received = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='واصل')
     remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='الباقي')
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='خصم')
     date = models.DateField(null=True, blank=True, verbose_name='التاريخ', default='لا يوجد')
     order = models.IntegerField(default=0, verbose_name='الترتيب')
     
@@ -40,7 +41,7 @@ class CustomerRow(models.Model):
         self.remaining = self.tex_meters * self.tex_price + \
                          self.selek_meters * self.selek_price + \
                          self.insulator_meters * self.insulator_price + \
-                         self.repairs - self.received
+                         self.repairs - self.received - self.discount
         super().save(*args, **kwargs)
 
 class Craftsman(models.Model):

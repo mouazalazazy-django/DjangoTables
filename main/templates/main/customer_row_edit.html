@@ -47,12 +47,16 @@
             {{ form.received }}
         </div>
         <div class="form-group">
-            <label>التاريخ:</label>
-            {{ form.date }}
-        </div>
-        <div class="form-group">
             <label>الباقي (يتم حسابه تلقائياً):</label>
             <input type="text" class="form-control" value="{{ row.remaining }}" disabled>
+        </div>
+        <div class="form-group">
+            <label>الخصم:</label>
+            {{ form.discount }}
+        </div>
+        <div class="form-group">
+            <label>التاريخ:</label>
+            {{ form.date }}
         </div>
         <button type="submit" class="btn btn-success">حفظ التعديلات</button>
     </form>

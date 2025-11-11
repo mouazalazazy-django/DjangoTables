@@ -27,6 +27,7 @@
                     <th>مرمات</th>
                     <th>واصل</th>
                     <th>الباقي</th>
+                    <th>الخصم</th>
                     <th>التاريخ</th>
                     <th>الإجراءات</th>
                 </tr>
@@ -44,6 +45,7 @@
                     <td>{{ row.repairs }}</td>
                     <td>{{ row.received }}</td>
                     <td>{{ row.remaining }}</td>
+                    <td>{{ row.discount }}</td>
                     <td>{{ row.date }}</td>
                     <td class="actions">
                         <a href="{% url 'customer_row_edit' row.pk %}" class="btn btn-warning">تعديل</a>
