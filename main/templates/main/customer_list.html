@@ -5,17 +5,35 @@
 {% block content %}
 <div class="card">
     <h2>قائمة العملاء</h2>
-    
-    <form method="POST" style="margin-bottom: 30px;">
+
+    <!-- Search Form -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" name="search" placeholder="ابحث بالاسم أو رقم الهاتف..." value="{{ search_query }}"
+                style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;">
+            <button type="submit" class="btn btn-primary" style="white-space: nowrap;">بحث</button>
+            {% if search_query %}
+            <a href="{% url 'customer_list' %}" class="btn btn-secondary" style="white-space: nowrap;">مسح البحث</a>
+            {% endif %}
+        </div>
+        {% if search_query %}
+        <p style="margin-top: 10px; color: #666;">
+            نتائج البحث عن: <strong>{{ search_query }}</strong> - تم العثور على {{ customers.count }} عميل
+        </p>
+        {% endif %}
+    </form>
+
+    <!-- Add Customer Form -->
+    <form method="POST" style="margin-bottom: 20px;">
         {% csrf_token %}
-        <div style="display: flex; gap: 10px; align-items: end;">
+        <div style="display: flex; gap: 10px; align-items: center;">
             <div class="form-group" style="flex: 1;">
                 {{ form.name }}
             </div>
             <div class="form-group" style="flex: 1;">
                 {{ form.phone }}
             </div>
-            <button type="submit" class="btn btn-success">إضافة عميل جديد</button>
+            <button type="submit" class="btn btn-success" style="white-space: nowrap;">إضافة عميل جديد</button>
         </div>
     </form>
 
@@ -39,7 +57,13 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3" style="text-align: center;">لا يوجد عملاء حالياً</td>
+                    <td colspan="3" style="text-align: center;">
+                        {% if search_query %}
+                        لا يوجد عملاء تطابق البحث "{{ search_query }}"
+                        {% else %}
+                        لا يوجد عملاء حالياً
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

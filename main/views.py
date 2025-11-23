@@ -24,7 +24,20 @@ def home(request):
 
 @login_required
 def customer_list(request):
-    customers = Customer.objects.all()
+    from django.db.models import Q
+    
+    # Get search query from GET parameters
+    search_query = request.GET.get('search', '').strip()
+    
+    # Filter customers based on search query
+    if search_query:
+        customers = Customer.objects.filter(
+            Q(name__icontains=search_query) | Q(phone__icontains=search_query)
+        )
+    else:
+        customers = Customer.objects.all()
+    
+    # Handle POST request for adding new customer
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
@@ -33,7 +46,13 @@ def customer_list(request):
             return redirect('customer_list')
     else:
         form = CustomerForm()
-    return render(request, 'main/customer_list.html', {'customers': customers, 'form': form})
+    
+    context = {
+        'customers': customers,
+        'form': form,
+        'search_query': search_query,
+    }
+    return render(request, 'main/customer_list.html', context)
 
 @login_required
 def customer_detail(request, pk):
