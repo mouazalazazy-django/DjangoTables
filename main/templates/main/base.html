@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,76 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
     <nav class="navbar">
-        <a href="{% url 'home' %}">الرئيسية</a>
-        <a href="{% url 'customer_list' %}">العملاء</a>
-        <a href="{% url 'craftsman_list' %}">الأسطوات</a>
-        <a href="{% url 'worker_list' %}">العمال</a>
-        <a href="{% url 'factory_detail' %}">المصنع</a>
+        <div class="nav-right">
+            <a href="{% url 'home' %}">الرئيسية</a>
+            <a href="{% url 'customer_list' %}">العملاء</a>
+            <a href="{% url 'craftsman_list' %}">الأسطوات</a>
+            <a href="{% url 'worker_list' %}">العمال</a>
+            <a href="{% url 'factory_detail' %}">المصنع</a>
+        </div>
+        <div class="nav-left">
+            {% if user.is_authenticated %}
+            <span class="user-info">مرحباً، {{ user.username }}</span>
+            {% if user.is_superuser %}
+            <a href="{% url 'register' %}">تسجيل مستخدم</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="btn-logout">تسجيل الخروج</a>
+            {% else %}
+            <a href="{% url 'login' %}">تسجيل الدخول</a>
+            {% endif %}
+        </div>
     </nav>
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .nav-right,
+        .nav-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-info {
+            color: #333;
+            font-weight: bold;
+            padding: 8px 15px;
+            background: #e8f5e9;
+            border-radius: 5px;
+        }
+
+        .btn-logout {
+            background: #f44336 !important;
+            color: white !important;
+            padding: 8px 15px !important;
+            border-radius: 5px !important;
+            text-decoration: none !important;
+        }
+
+        .btn-logout:hover {
+            background: #da190b !important;
+        }
+    </style>
 
     <div class="container">
         {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
         {% endif %}
 
         {% block content %}
         {% endblock %}
     </div>
 </body>
+
 </html>

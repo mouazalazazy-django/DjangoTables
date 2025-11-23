@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, FileResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .models import Customer, CustomerRow, Craftsman, CraftsmanRow, Worker, WorkerRow, FactoryRow
 from .forms import CustomerForm, CustomerRowForm, CraftsmanForm, CraftsmanRowForm, WorkerForm, WorkerRowForm, FactoryRowForm
@@ -17,9 +18,11 @@ from bidi.algorithm import get_display
 import io
 
 
+@login_required
 def home(request):
     return render(request, 'main/home.html')
 
+@login_required
 def customer_list(request):
     customers = Customer.objects.all()
     if request.method == 'POST':
@@ -32,6 +35,7 @@ def customer_list(request):
         form = CustomerForm()
     return render(request, 'main/customer_list.html', {'customers': customers, 'form': form})
 
+@login_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     rows = customer.rows.all()
@@ -78,6 +82,7 @@ def customer_detail(request, pk):
     return render(request, 'main/customer_detail.html', context)
 
 
+@login_required
 def customer_row_edit(request, pk):
     row = get_object_or_404(CustomerRow, pk=pk)
     if request.method == 'POST':
@@ -99,6 +104,7 @@ def customer_row_edit(request, pk):
     return render(request, 'main/customer_row_edit.html', {'form': form, 'row': row})
 
 
+@login_required
 @require_POST
 def customer_row_delete(request, pk):
     row = get_object_or_404(CustomerRow, pk=pk)
@@ -108,6 +114,7 @@ def customer_row_delete(request, pk):
     return redirect('customer_detail', pk=customer_pk)
 
 
+@login_required
 def customer_print(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     rows = customer.rows.all()
@@ -183,6 +190,7 @@ def customer_print(request, pk):
 
 
 
+@login_required
 def craftsman_list(request):
     craftsmen = Craftsman.objects.all()
     if request.method == 'POST':
@@ -196,6 +204,7 @@ def craftsman_list(request):
     return render(request, 'main/craftsman_list.html', {'craftsmen': craftsmen, 'form': form})
 
 
+@login_required
 def craftsman_detail(request, pk):
     craftsman = get_object_or_404(Craftsman, pk=pk)
     rows = craftsman.rows.all()
@@ -220,6 +229,7 @@ def craftsman_detail(request, pk):
     return render(request, 'main/craftsman_detail.html', context)
 
 
+@login_required
 def craftsman_row_edit(request, pk):
     row = get_object_or_404(CraftsmanRow, pk=pk)
     if request.method == 'POST':
@@ -233,6 +243,7 @@ def craftsman_row_edit(request, pk):
     return render(request, 'main/craftsman_row_edit.html', {'form': form, 'row': row})
 
 
+@login_required
 @require_POST
 def craftsman_row_delete(request, pk):
     row = get_object_or_404(CraftsmanRow, pk=pk)
@@ -242,6 +253,7 @@ def craftsman_row_delete(request, pk):
     return redirect('craftsman_detail', pk=craftsman_pk)
 
 
+@login_required
 def worker_list(request):
     workers = Worker.objects.all()
     if request.method == 'POST':
@@ -255,6 +267,7 @@ def worker_list(request):
     return render(request, 'main/worker_list.html', {'workers': workers, 'form': form})
 
 
+@login_required
 def worker_detail(request, pk):
     worker = get_object_or_404(Worker, pk=pk)
     rows = worker.rows.all()
@@ -279,6 +292,7 @@ def worker_detail(request, pk):
     return render(request, 'main/worker_detail.html', context)
 
 
+@login_required
 def worker_row_edit(request, pk):
     row = get_object_or_404(WorkerRow, pk=pk)
     if request.method == 'POST':
@@ -292,6 +306,7 @@ def worker_row_edit(request, pk):
     return render(request, 'main/worker_row_edit.html', {'form': form, 'row': row})
 
 
+@login_required
 @require_POST
 def worker_row_delete(request, pk):
     row = get_object_or_404(WorkerRow, pk=pk)
@@ -301,6 +316,7 @@ def worker_row_delete(request, pk):
     return redirect('worker_detail', pk=worker_pk)
 
 
+@login_required
 def factory_detail(request):
     # Get or create the factory instance
 
@@ -332,6 +348,7 @@ def factory_detail(request):
     return render(request, 'main/factory_detail.html', context)
 
 
+@login_required
 def factory_row_edit(request, pk):
     row = get_object_or_404(FactoryRow, pk=pk)
     if request.method == 'POST':
@@ -345,6 +362,7 @@ def factory_row_edit(request, pk):
     return render(request, 'main/factory_row_edit.html', {'form': form, 'row': row})
 
 
+@login_required
 @require_POST
 def factory_row_delete(request, pk):
     row = get_object_or_404(FactoryRow, pk=pk)

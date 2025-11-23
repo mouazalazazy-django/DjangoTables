@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Customer(models.Model):
     name = models.CharField(max_length=200, verbose_name='الاسم')
@@ -118,4 +119,20 @@ class FactoryRow(models.Model):
         ordering = ['order', 'id']
     
     def __str__(self):
-        return f"{self.factory.name} - {self.date}"
+        return f"المصنع - {self.date}"
+
+
+class LoginSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='login_sessions', verbose_name='المستخدم')
+    login_time = models.DateTimeField(auto_now_add=True, verbose_name='وقت تسجيل الدخول')
+    logout_time = models.DateTimeField(null=True, blank=True, verbose_name='وقت تسجيل الخروج')
+    ip_address = models.GenericIPAddressField(null=True, blank=True, verbose_name='عنوان IP')
+    session_key = models.CharField(max_length=40, null=True, blank=True, verbose_name='مفتاح الجلسة')
+    
+    class Meta:
+        verbose_name = 'جلسة تسجيل الدخول'
+        verbose_name_plural = 'جلسات تسجيل الدخول'
+        ordering = ['-login_time']
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.login_time}"

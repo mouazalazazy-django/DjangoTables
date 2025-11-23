@@ -1,7 +1,14 @@
 from django.urls import path
 from . import views
+from . import auth_views
 
 urlpatterns = [
+    # Authentication URLs
+    path('login/', auth_views.user_login, name='login'),
+    path('logout/', auth_views.user_logout, name='logout'),
+    path('register/', auth_views.user_register, name='register'),
+    
+    # Main URLs
     path('', views.home, name='home'),
     
     path('customers/', views.customer_list, name='customer_list'),
